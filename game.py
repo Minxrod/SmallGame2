@@ -90,7 +90,7 @@ def title():
 def diff():
 	print("Select your difficulty (Size of maximum number in bits to collect)")
 	print("Suggested:\n8 - Easy\n16 - Normal\n24 - Hard\n32 - Tedious")
-	print("Goals are the SIGNED INTEGERS in that range, so 8 would be [-128,127]"
+	print("Goals are the SIGNED INTEGERS in that range, so 8 would be [-128,127]")
 	save['diff'] = repeat_until_valid_int()
 	save['win'] = Range(2**(save['diff']-1)-2**save['diff'], 2**(save['diff']-1))
 
@@ -98,10 +98,10 @@ def instruct():
 	print("Enter an operator and a number you have collected.")
 	print("h=help, r=random, q=quit")
 
-def random():
-	n = random.randint(0,user_diff)
+def rand():
+	n = random.randint(0,save['diff'])
 	if not hoard_contains(n):
-		save['hoard'].append(n)
+		hoard_add(n)
 
 call_ops = {
 	"+": lambda x : save['cur'] + x,
@@ -127,16 +127,17 @@ def choice():
 	if op == "h":
 		instruct()
 	if op == "r":
-		random()
+		rand()
 	if op in save['ops'] and try_int(dat):
 		n = int(dat)
 		save['cur'] = call_ops[op](n)
 		hoard_add(save['cur'])
 	
 	return op != "q"
+
 title()
 diff()
 instruct()
 while choice():
 	pass
-
+print(f"Good game! Final collection: {save['hoard']}")
